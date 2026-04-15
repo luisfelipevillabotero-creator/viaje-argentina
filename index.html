@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Viaje a Argentina 2026</title>
+  <meta name="description" content="Itinerario interactivo de viaje a Argentina y Uruguay - Abril 2026">
+  <meta name="theme-color" content="#0a0f1e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0f1e;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.07);
+      --border-light: rgba(255,255,255,0.12);
+      --text: #f1f5f9;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245,158,11,0.12);
+      --green: #10b981;
+      --green-soft: rgba(16,185,129,0.12);
+      --blue: #3b82f6;
+      --blue-soft: rgba(59,130,246,0.12);
+      --teal: #14b8a6;
+      --teal-soft: rgba(20,184,166,0.12);
+      --coral: #f97316;
+      --coral-soft: rgba(249,115,22,0.12);
+      --rose: #f43f5e;
+      --purple: #a78bfa;
+      --purple-soft: rgba(167,139,250,0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);min-height:100vh;color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .container{max-width:520px;margin:0 auto;padding:0 1rem 5rem}
+
+    /* ─── HERO ─── */
+    .hero{position:relative;padding:3.5rem 1.5rem 2.5rem;text-align:center;overflow:hidden;background:linear-gradient(160deg,#1e1b4b 0%,#1e3a5f 40%,#0f766e 100%);border-radius:0 0 32px 32px;margin-bottom:1rem}
+    .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+    .hero-plane{position:absolute;right:-30px;top:50%;transform:translateY(-50%) rotate(-20deg);width:220px;height:220px;opacity:.06}
+    .hero-content{position:relative;z-index:2}
+    .hero-icon{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,.15);margin-bottom:1rem}
+    .hero-icon svg{width:28px;height:28px;fill:#fff}
+    .hero h1{font-family:'Playfair Display',serif;color:#fff;font-size:2rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.25rem}
+    .hero .subtitle{color:rgba(255,255,255,.8);font-size:1.05rem;margin-bottom:1rem}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#000;padding:6px 18px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px}
+    .hero-route{margin-top:1.25rem;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;color:rgba(255,255,255,.55);font-size:12px;letter-spacing:.5px}
+    .hero-route .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.4)}
+    .trip-status{margin-top:1rem;padding:8px 16px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px;border:1px solid rgba(255,255,255,.1);font-size:13px;color:rgba(255,255,255,.9);display:inline-block}
+    .trip-status .highlight{color:var(--accent);font-weight:600}
+
+    /* ─── NAV ─── */
+    .nav-wrapper{position:sticky;top:0;z-index:50;padding:8px 0;background:rgba(10,15,30,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);margin-bottom:1rem}
+    .nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+    .nav::-webkit-scrollbar{display:none}
+    .nav button{flex-shrink:0;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid transparent;background:var(--surface);color:var(--text2);transition:all .25s;white-space:nowrap}
+    .nav button:hover{background:rgba(255,255,255,.07);color:var(--text)}
+    .nav button.active{background:rgba(245,158,11,.12);color:var(--accent);border-color:rgba(245,158,11,.25);font-weight:600}
+
+    /* ─── SECTIONS ─── */
+    .section{display:none}.section.active{display:block;animation:fadeUp .35s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ─── MAP ─── */
+    .map-container{background:linear-gradient(180deg,rgba(30,59,95,.5),rgba(15,30,50,.5));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border-light);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem}
+    .map-header{text-align:center;margin-bottom:1rem}
+    .map-header h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:#fff}
+    .map-header p{font-size:12px;color:var(--text2);margin-top:2px}
+    .flight-path{stroke-dasharray:8 4;animation:dash 2s linear infinite}
+    @keyframes dash{to{stroke-dashoffset:-24}}
+    .pulse-ring{animation:pulseRing 2s ease-in-out infinite}
+    @keyframes pulseRing{0%,100%{r:6;opacity:.8}50%{r:11;opacity:0}}
+    .route-line{stroke-dasharray:800;stroke-dashoffset:800;animation:drawLine 3s ease-out forwards}
+    @keyframes drawLine{to{stroke-dashoffset:0}}
+    .city-marker{opacity:0;animation:markerIn .5s ease-out forwards}
+    @keyframes markerIn{to{opacity:1}}
+    .boat-icon{animation:rock 3s ease-in-out infinite;transform-origin:center}
+    @keyframes rock{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+    .legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:1rem;padding:10px;background:rgba(255,255,255,.04);border-radius:var(--radius-sm)}
+    .legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2)}
+    .legend-dot{width:10px;height:10px;border-radius:50%}
+    .timeline-bar{display:flex;gap:2px;margin-top:.75rem;border-radius:6px;overflow:hidden}
+    .timeline-seg{height:6px;cursor:pointer;transition:all .2s;position:relative}
+    .timeline-seg:hover{filter:brightness(1.3);transform:scaleY(2)}
+    .timeline-seg:hover::after{content:attr(data-label);position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text);white-space:nowrap;background:rgba(0,0,0,.8);padding:4px 8px;border-radius:6px}
+
+    /* ─── DAY DIVIDER ─── */
+    .day-div{display:flex;align-items:center;gap:12px;padding:20px 0 10px}
+    .day-div:first-child{padding-top:0}
+    .day-div .label{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;letter-spacing:.3px}
+    .day-div .label span{color:var(--text3);font-weight:400}
+    .day-div .line{flex:1;height:1px;background:var(--border)}
+
+    /* ─── TICKET (base) ─── */
+    .ticket{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:visible;position:relative;transition:all .25s}
+    .ticket:hover{border-color:var(--border-light)}
+    /* accent left strip */
+    .ticket.flight{border-left:3px solid var(--accent)}
+    .ticket.train{border-left:3px solid var(--coral)}
+    .ticket.ferry{border-left:3px solid var(--blue)}
+    .ticket.hotel{border-left:3px solid var(--purple)}
+    .ticket.activity{border-left:3px solid var(--teal)}
+    .ticket.nightlife{border-left:3px solid var(--rose)}
+    .ticket.free{border-left:3px solid var(--green)}
+
+    /* ticket header */
+    .tk-head{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border)}
+    .tk-head .icon{font-size:15px;font-style:normal}
+    .tk-head .label{flex:1}
+    .tk-head .badge{font-size:10px;letter-spacing:0;text-transform:none;padding:2px 8px;border-radius:6px;font-weight:600}
+    .ticket.flight .tk-head{background:var(--accent-soft);color:#fbbf24}
+    .ticket.train .tk-head{background:var(--coral-soft);color:#fb923c}
+    .ticket.ferry .tk-head{background:var(--blue-soft);color:#60a5fa}
+    .ticket.hotel .tk-head{background:var(--purple-soft);color:#c4b5fd}
+    .ticket.activity .tk-head{background:var(--teal-soft);color:#5eead4}
+    .ticket.nightlife .tk-head{background:rgba(244,63,94,.12);color:#fda4af}
+    .ticket.free .tk-head{background:var(--green-soft);color:#6ee7b7}
+
+    /* ticket route (flights, trains, ferries) */
+    .tk-route{display:flex;align-items:center;padding:16px 14px;gap:4px}
+    .tk-city{flex:1;text-align:center}
+    .tk-city.from{text-align:left}.tk-city.to{text-align:right}
+    .tk-city .code{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff;letter-spacing:1px}
+    .tk-city .name{font-size:11px;color:var(--text2);margin-top:1px}
+    .tk-city .time{font-size:15px;font-weight:600;color:var(--text);margin-top:4px}
+    .tk-path{flex:1.2;display:flex;align-items:center;justify-content:center;position:relative;min-width:60px;padding:0 4px}
+    .tk-path::before{content:'';position:absolute;left:8px;right:8px;top:50%;border-top:1px dashed rgba(255,255,255,.15)}
+    .tk-path .p-icon{position:relative;z-index:1;background:var(--bg);padding:2px 6px;font-size:14px;color:var(--text3)}
+
+    /* ticket info (hotels, activities) */
+    .tk-info{padding:12px 14px}
+    .tk-info .row{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);padding:3px 0}
+    .tk-info .row .ri{flex-shrink:0;font-size:13px;width:18px;text-align:center}
+    .tk-info .row .selectable{user-select:all;-webkit-user-select:all;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--purple);letter-spacing:.5px}
+
+    /* ticket tear line */
+    .tk-tear{position:relative;height:0}
+    .tk-tear::before{content:'';position:absolute;left:16px;right:16px;top:0;border-top:1px dashed rgba(255,255,255,.08)}
+    .tk-tear::after{content:'';position:absolute;left:-9px;top:-8px;width:16px;height:16px;background:var(--bg);border-radius:50%;box-shadow:calc(100% + 490px - 16px) 0 0 0 var(--bg)}
+
+    /* ticket footer */
+    .tk-foot{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:10px 14px;background:rgba(255,255,255,.015)}
+    .tk-foot .code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);user-select:all;-webkit-user-select:all;letter-spacing:.5px;margin-right:auto}
+    .tk-foot .price{font-size:13px;font-weight:600;color:var(--purple)}
+    .status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;letter-spacing:.3px}
+    .status.paid{background:var(--green-soft);color:var(--green)}
+    .status.reserved{background:var(--accent-soft);color:var(--accent)}
+    .status.pending{background:rgba(148,163,184,.15);color:var(--text2)}
+
+    /* ─── SUMMARY ─── */
+    .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center}
+    .stat .label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+    .stat .val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff}
+    .stat .sub{font-size:12px;color:var(--text2);margin-top:2px}
+    .expense-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem}
+    .expense-card h3{padding:1rem 1.25rem .75rem;font-size:15px;font-weight:600;color:#fff}
+    .exp-row{display:flex;justify-content:space-between;align-items:center;padding:12px 1.25rem;border-top:1px solid var(--border)}
+    .exp-row:first-of-type{border-top:none}
+    .exp-name{font-size:13px;color:var(--text)}.exp-note{font-size:11px;color:var(--text3);margin-top:1px}
+    .exp-amount{font-size:13px;font-weight:600;color:var(--purple);white-space:nowrap}
+    .exp-total{background:linear-gradient(90deg,rgba(245,158,11,.08),rgba(245,158,11,.03));border-top:1px solid rgba(245,158,11,.15)!important}
+    .exp-total .exp-name{font-weight:700;color:#fff}.exp-total .exp-amount{color:var(--accent);font-size:15px}
+    .notes-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+    .notes-card h3{font-size:15px;font-weight:600;color:#fff;margin-bottom:12px}
+    .note{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13px;color:var(--text2)}
+    .note .icon{flex-shrink:0;font-size:14px;margin-top:1px}
+    .note.warn .icon{color:var(--accent)}
+
+    /* ─── FOOTER ─── */
+    .footer{text-align:center;padding:2rem 1rem 1rem;color:var(--text3);font-size:12px}
+    .footer .heart{color:var(--rose)}
+
+    /* ─── POPUP ─── */
+    .popup{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--bg);padding:12px 20px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.4);opacity:0;transition:all .3s;pointer-events:none;z-index:100;text-align:center;white-space:nowrap}
+    .popup.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .popup .name{font-weight:600;font-size:14px}.popup .dates{color:var(--text3);font-size:12px;margin-top:2px}
+
+    /* ─── SCROLL REVEAL ─── */
+    .ticket{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+    .ticket.visible{opacity:1;transform:translateY(0)}
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:400px){.hero h1{font-size:1.6rem}.tk-city .code{font-size:18px}.tk-route{padding:12px 10px}}
+    @media(min-width:600px){.container{padding-bottom:3rem}.stats-grid{grid-template-columns:repeat(4,1fr)}}
+  </style>
+</head>
+<body>
+
+<!-- ▸ HERO -->
+<div class="hero">
+  <svg class="hero-plane" viewBox="0 0 100 100"><path d="M50,8 L44,28 L14,40 L14,46 L44,38 L44,72 L30,80 L30,85 L50,78 L70,85 L70,80 L56,72 L56,38 L86,46 L86,40 L56,28 Z" fill="#fff" opacity=".9"/></svg>
+  <div class="hero-content">
+    <div class="hero-icon"><svg viewBox="0 0 24 24"><path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/></svg></div>
+    <h1>Viaje a Argentina</h1>
+    <div class="subtitle">15 – 30 de Abril, 2026</div>
+    <span class="hero-badge">✈ 15 DÍAS DE AVENTURA</span>
+    <div class="hero-route">
+      <span>Bogotá</span><span class="dot"></span><span>Buenos Aires</span><span class="dot"></span><span>Iguazú</span><span class="dot"></span><span>Mar del Plata</span><span class="dot"></span><span>Montevideo</span>
+    </div>
+    <div class="trip-status" id="trip-status"></div>
+  </div>
+</div>
+
+<div class="container">
+<!-- ▸ NAV -->
+<div class="nav-wrapper">
+  <div class="nav">
+    <button class="active" onclick="showSection('map',this)">🗺 Mapa</button>
+    <button onclick="showSection('week1',this)">Semana 1</button>
+    <button onclick="showSection('week2',this)">Semana 2</button>
+    <button onclick="showSection('summary',this)">💰 Resumen</button>
+  </div>
+</div>
+
+<!-- ▸ MAP -->
+<div id="map" class="section active">
+  <div class="map-container">
+    <div class="map-header"><h2>Ruta del Viaje</h2><p>2,500+ km por Sudamérica</p></div>
+    <svg viewBox="0 0 680 520" width="100%">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <radialGradient id="cg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff" stop-opacity=".3"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      </defs>
+      <path d="M120,40 Q140,35 170,40 Q200,50 220,70 Q235,90 230,115 Q220,140 195,150 Q170,155 145,145 Q120,130 110,105 Q100,80 105,55 Q110,40 120,40 Z" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.12)" stroke-width=".5"/>
+      <text x="155" y="95" fill="rgba(255,255,255,.12)" font-size="8" text-anchor="middle" letter-spacing="3">COLOMBIA</text>
+      <path d="M220,70 Q280,55 350,60 Q420,70 480,100 Q530,140 550,200 Q560,260 540,320 Q510,380 460,400 Q400,415 350,400 Q310,385 290,355 Q275,320 280,280 Q290,245 320,220 Q350,190 340,150 Q325,110 280,90 Q240,75 220,70 Z" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.1)" stroke-width=".5"/>
+      <text x="400" y="220" fill="rgba(255,255,255,.1)" font-size="13" text-anchor="middle" letter-spacing="4">BRASIL</text>
+      <path d="M365,365 Q390,355 415,365 Q435,380 435,405 Q430,430 405,440 Q375,445 355,425 Q340,405 345,385 Q355,370 365,365 Z" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.3)" stroke-width=".75"/>
+      <text x="390" y="405" fill="rgba(255,255,255,.2)" font-size="8" text-anchor="middle" letter-spacing="3">URUGUAY</text>
+      <path d="M175,370 Q235,355 290,355 Q340,360 365,365 Q355,385 345,420 Q330,460 310,500 Q280,550 240,580 Q200,600 170,585 Q145,565 135,530 Q125,490 130,450 Q140,400 175,370 Z" fill="rgba(16,185,129,.06)" stroke="rgba(16,185,129,.35)" stroke-width=".75"/>
+      <text x="250" y="470" fill="rgba(255,255,255,.18)" font-size="12" text-anchor="middle" letter-spacing="4">ARGENTINA</text>
+      <text x="560" y="355" fill="rgba(255,255,255,.08)" font-size="10" text-anchor="middle" font-style="italic">Océano Atlántico</text>
+      <path class="flight-path" d="M170,85 Q180,200 145,400" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".4"/>
+      <path class="flight-path" d="M145,400 Q200,395 320,390" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".4" style="animation-delay:.5s"/>
+      <path class="route-line" d="M320,390 Q380,340 440,280" fill="none" stroke="var(--green)" stroke-width="2" style="animation-delay:1s"/>
+      <path class="route-line" d="M440,280 Q380,340 320,390" fill="none" stroke="var(--green)" stroke-width="1" stroke-dasharray="4 4" style="animation-delay:2s"/>
+      <path class="route-line" d="M320,390 Q340,420 355,455" fill="none" stroke="var(--coral)" stroke-width="2" stroke-dasharray="5 5" style="animation-delay:2.5s"/>
+      <path class="route-line" d="M355,455 Q340,420 320,390" fill="none" stroke="var(--coral)" stroke-width="1" stroke-dasharray="4 4" style="animation-delay:3s"/>
+      <path class="route-line" d="M320,390 Q350,385 380,390" fill="none" stroke="var(--blue)" stroke-width="2" style="animation-delay:3.5s"/>
+      <path class="route-line" d="M380,390 Q350,385 320,390" fill="none" stroke="var(--blue)" stroke-width="1" stroke-dasharray="4 4" style="animation-delay:4s"/>
+      <path class="flight-path" d="M320,390 Q240,240 170,85" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".3" style="animation-delay:4.5s"/>
+      <text x="395" y="255" fill="rgba(255,255,255,.3)" font-size="9">1,340 km</text>
+      <text x="310" y="445" fill="rgba(255,255,255,.3)" font-size="9">404 km</text>
+      <text x="340" y="375" fill="rgba(255,255,255,.3)" font-size="9">230 km</text>
+      <g class="city-marker" style="animation-delay:.7s"><circle cx="145" cy="400" r="4" fill="rgba(255,255,255,.35)"/><text x="100" y="396" fill="rgba(255,255,255,.4)" font-size="9">Santiago</text><text x="100" y="408" fill="rgba(255,255,255,.25)" font-size="7">conexión</text></g>
+      <g class="city-marker" style="animation-delay:.2s;cursor:pointer" onclick="showCity('bogota')"><circle cx="170" cy="85" r="20" fill="url(#cg)"/><circle cx="170" cy="85" r="8" fill="var(--accent)" filter="url(#glow)"/><circle class="pulse-ring" cx="170" cy="85" fill="none" stroke="var(--accent)" stroke-width="1.5"/><text x="188" y="80" fill="#fff" font-size="12" font-weight="600">Bogotá</text><text x="188" y="94" fill="rgba(255,255,255,.55)" font-size="9">SALIDA 15 ABR</text></g>
+      <g class="city-marker" style="animation-delay:1.2s;cursor:pointer" onclick="showCity('buenosaires')"><circle cx="320" cy="390" r="20" fill="url(#cg)"/><circle cx="320" cy="390" r="10" fill="var(--green)" filter="url(#glow)"/><circle class="pulse-ring" cx="320" cy="390" fill="none" stroke="var(--green)" stroke-width="1.5"/><text x="260" y="420" fill="#fff" font-size="12" font-weight="600">Buenos Aires</text><text x="260" y="434" fill="rgba(255,255,255,.55)" font-size="9">6 noches</text></g>
+      <g class="city-marker" style="animation-delay:1.8s;cursor:pointer" onclick="showCity('iguazu')"><circle cx="440" cy="280" r="18" fill="url(#cg)"/><circle cx="440" cy="280" r="8" fill="var(--teal)" filter="url(#glow)"/><circle class="pulse-ring" cx="440" cy="280" fill="none" stroke="var(--teal)" stroke-width="1.5" style="animation-delay:.5s"/><text x="458" y="275" fill="#fff" font-size="11" font-weight="600">Iguazú</text><text x="458" y="289" fill="rgba(255,255,255,.55)" font-size="9">3 noches</text></g>
+      <g class="city-marker" style="animation-delay:2.5s;cursor:pointer" onclick="showCity('mardelplata')"><circle cx="355" cy="455" r="16" fill="url(#cg)"/><circle cx="355" cy="455" r="7" fill="var(--coral)" filter="url(#glow)"/><circle class="pulse-ring" cx="355" cy="455" fill="none" stroke="var(--coral)" stroke-width="1.5" style="animation-delay:1s"/><text x="372" y="450" fill="#fff" font-size="11" font-weight="600">Mar del Plata</text><text x="372" y="464" fill="rgba(255,255,255,.55)" font-size="9">2 noches</text></g>
+      <g class="city-marker" style="animation-delay:3.2s;cursor:pointer" onclick="showCity('montevideo')"><circle cx="390" cy="395" r="16" fill="url(#cg)"/><circle cx="390" cy="395" r="7" fill="var(--blue)" filter="url(#glow)"/><circle class="pulse-ring" cx="390" cy="395" fill="none" stroke="var(--blue)" stroke-width="1.5" style="animation-delay:1.5s"/><text x="408" y="387" fill="#fff" font-size="11" font-weight="600">Montevideo</text><text x="408" y="401" fill="rgba(255,255,255,.55)" font-size="9">2 noches</text></g>
+      <g class="boat-icon" transform="translate(350,385)"><path d="M-5,1 Q0,-4 5,1 L3,5 L-3,5 Z" fill="var(--blue)" opacity=".7"/><rect x="-.5" y="-5" width="1.5" height="6" fill="var(--blue)" opacity=".7"/><path d="M1,-5 Q5,-3 1,-1" fill="none" stroke="var(--blue)" stroke-width="1" opacity=".7"/></g>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Vuelo int.</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Vuelo interno</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--coral)"></div>Tren</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Ferry</div>
+    </div>
+    <div class="timeline-bar">
+      <div class="timeline-seg" style="background:var(--accent);flex:.5" data-label="15 Abr" onclick="showCity('bogota')"></div>
+      <div class="timeline-seg" style="background:var(--green);flex:4" data-label="16-19 Abr" onclick="showCity('buenosaires')"></div>
+      <div class="timeline-seg" style="background:var(--teal);flex:3" data-label="20-22 Abr" onclick="showCity('iguazu')"></div>
+      <div class="timeline-seg" style="background:var(--green);flex:1" data-label="23 Abr" onclick="showCity('buenosaires')"></div>
+      <div class="timeline-seg" style="background:var(--coral);flex:2" data-label="24-25 Abr" onclick="showCity('mardelplata')"></div>
+      <div class="timeline-seg" style="background:var(--green);flex:1" data-label="26 Abr" onclick="showCity('buenosaires')"></div>
+      <div class="timeline-seg" style="background:var(--blue);flex:2" data-label="27-28 Abr" onclick="showCity('montevideo')"></div>
+      <div class="timeline-seg" style="background:var(--green);flex:1" data-label="29 Abr" onclick="showCity('buenosaires')"></div>
+      <div class="timeline-seg" style="background:var(--accent);flex:.5" data-label="30 Abr" onclick="showCity('bogota')"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEMANA 1 ═══════════════════════════ -->
+<div id="week1" class="section">
+
+  <!-- DÍA 0 — MIÉ 15 ABR -->
+  <div class="day-div"><div class="label">DÍA 0 <span>· MIÉ 15 ABR · Salida</span></div><div class="line"></div></div>
+
+  <div class="ticket flight" data-day="15">
+    <div class="tk-head"><i class="icon">✈</i><span class="label">VUELO LA711 · LATAM</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">BOG</div><div class="name">Bogotá</div><div class="time">23:10</div></div>
+      <div class="tk-path"><span class="p-icon">✈</span></div>
+      <div class="tk-city to"><div class="code">SCL</div><div class="name">Santiago de Chile</div><div class="time">04:10 +1</div></div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">TT</span><span class="price">$4,944,420</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <!-- DÍA 1 — JUE 16 ABR -->
+  <div class="day-div"><div class="label">DÍA 1 <span>· JUE 16 ABR · Buenos Aires</span></div><div class="line"></div></div>
+
+  <div class="ticket flight" data-day="16">
+    <div class="tk-head"><i class="icon">✈</i><span class="label">CONEXIÓN SANTIAGO</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">SCL</div><div class="name">Santiago</div><div class="time">08:40</div></div>
+      <div class="tk-path"><span class="p-icon">✈</span></div>
+      <div class="tk-city to"><div class="code">EZE</div><div class="name">Buenos Aires Ezeiza</div><div class="time">11:30</div></div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">SFWNPN</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket hotel" data-day="16">
+    <div class="tk-head"><i class="icon">🏨</i><span class="label">CORAZÓN DE RECOLETA</span><span class="badge status reserved">4 NOCHES</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Uriburu 1661, Piso 10, Ap 48 — Recoleta</div>
+      <div class="row"><span class="ri">📞</span> <span class="selectable">+5491168556135</span></div>
+      <div class="row"><span class="ri">📅</span> Check-in 16 Abr → Check-out 20 Abr</div>
+      <div class="row"><span class="ri">#</span> Reserva: <span class="selectable">5160939875</span> · P8318</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">Imp. 47 US incluido</span><span class="price">163 US</span><span class="status reserved">RESERVADO</span></div>
+  </div>
+
+  <div class="ticket activity" data-day="16">
+    <div class="tk-head"><i class="icon">💃</i><span class="label">CLASE DE TANGO · 2 HRS</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Av. Belgrano 3717</div>
+      <div class="row"><span class="ri">⏰</span> 17:30 · Mate y Merienda incluidos</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">TT</span><span class="price">$191,000</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <!-- DÍA 2 — VIE 17 ABR -->
+  <div class="day-div"><div class="label">DÍA 2 <span>· VIE 17 ABR · City Tour</span></div><div class="line"></div></div>
+
+  <div class="ticket activity" data-day="17">
+    <div class="tk-head"><i class="icon">🚌</i><span class="label">AUTOBÚS TURÍSTICO · 12 PARADAS</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> A. Pres. Roque Sáenz Peña 728, C110 San Nicolás</div>
+      <div class="row"><span class="ri">⏰</span> 09:30 → 17:30</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">TT</span><span class="price">$312,000</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket nightlife" data-day="17">
+    <div class="tk-head"><i class="icon">🎉</i><span class="label">BOLICHES — VIERNES NOCHE</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">🌙</span> Recoleta Moll · Kuma · Cruza · Afrika Club</div>
+      <div class="row"><span class="ri">🎶</span> Gloria EC · La Mala · Bartolo (Cachengue y Reggaetón)</div>
+    </div>
+  </div>
+
+  <!-- DÍA 3 — SÁB 18 ABR -->
+  <div class="day-div"><div class="label">DÍA 3 <span>· SÁB 18 ABR · Tour Histórico</span></div><div class="line"></div></div>
+
+  <div class="ticket activity" data-day="18">
+    <div class="tk-head"><i class="icon">🏛</i><span class="label">TOUR CASA ROSADA · 2 PERSONAS</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Venezuela 649, C1095AAM</div>
+      <div class="row"><span class="ri">⏰</span> 09:00 · Casa Rosada, Puerto Madero, Obelisco</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">STELLA · TT</span><span class="price">$380,800</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <!-- DÍA 4 — DOM 19 ABR -->
+  <div class="day-div"><div class="label">DÍA 4 <span>· DOM 19 ABR · Domingo Recoleta</span></div><div class="line"></div></div>
+
+  <div class="ticket free" data-day="19">
+    <div class="tk-head"><i class="icon">💃</i><span class="label">PORTAL DE RECOLETA</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Av. Santa Fe 2519 esq. Pueyrredón</div>
+      <div class="row"><span class="ri">⏰</span> 14:00 · Mafalda, Milonga El Chamuyo, El Beso</div>
+    </div>
+  </div>
+
+  <!-- DÍA 5 — LUN 20 ABR -->
+  <div class="day-div"><div class="label">DÍA 5 <span>· LUN 20 ABR · Iguazú</span></div><div class="line"></div></div>
+
+  <div class="ticket flight" data-day="20">
+    <div class="tk-head"><i class="icon">✈</i><span class="label">VUELO FO5102 · FLYBONDI</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">AEP</div><div class="name">B. Aires Aeroparque</div><div class="time">12:35</div></div>
+      <div class="tk-path"><span class="p-icon">✈</span></div>
+      <div class="tk-city to"><div class="code">IGR</div><div class="name">Puerto Iguazú</div><div class="time">14:25</div></div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">EQHAKQ</span><span class="price">$504,000</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket hotel" data-day="20">
+    <div class="tk-head"><i class="icon">🏡</i><span class="label">NATURALEZA VIVA · IGUAZÚ</span><span class="badge status paid">3 NOCHES</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Waldemar Zipp esq. Inmigrantes, Barrio Orquídeas</div>
+      <div class="row"><span class="ri">🌎</span> Puerto Iguazú, Misiones, Argentina</div>
+      <div class="row"><span class="ri">📞</span> Anfitrión Jonathan: <span class="selectable">+543757445477</span></div>
+      <div class="row"><span class="ri">#</span> Reserva: <span class="selectable">HMJDHZNFHB</span></div>
+      <div class="row"><span class="ri">📅</span> Check-in 20 Abr → Check-out 23 Abr</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">STELLA</span><span class="price">$433,112</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <!-- DÍA 6-7 — MAR-MIÉ 21-22 ABR -->
+  <div class="day-div"><div class="label">DÍA 6–7 <span>· 21-22 ABR · Cataratas</span></div><div class="line"></div></div>
+
+  <div class="ticket free" data-day="21">
+    <div class="tk-head"><i class="icon">🌊</i><span class="label">CATARATAS DEL IGUAZÚ</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">🇦🇷</span> Lado argentino — Parque Nacional Iguazú</div>
+      <div class="row"><span class="ri">🇧🇷</span> Lado brasileño — Foz do Iguaçu</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SEMANA 2 ═══════════════════════════ -->
+<div id="week2" class="section">
+
+  <!-- DÍA 8 — JUE 23 ABR -->
+  <div class="day-div"><div class="label">DÍA 8 <span>· JUE 23 ABR · Regreso BA</span></div><div class="line"></div></div>
+
+  <div class="ticket flight" data-day="23">
+    <div class="tk-head"><i class="icon">✈</i><span class="label">VUELO IGUAZÚ → BUENOS AIRES</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">IGR</div><div class="name">Puerto Iguazú</div><div class="time">15:15</div></div>
+      <div class="tk-path"><span class="p-icon">✈</span></div>
+      <div class="tk-city to"><div class="code">AEP</div><div class="name">B. Aires Aeroparque</div><div class="time">17:05</div></div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">EQHAKQ · Pedido 1106-909-802</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket hotel" data-day="23">
+    <div class="tk-head"><i class="icon">🏨</i><span class="label">LEZAMA SUITES · SAN TELMO</span><span class="badge status reserved">1 NOCHE</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Defensa 1521, PB — San Telmo</div>
+      <div class="row"><span class="ri">⏰</span> Check-in 17:30</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code"></span><span class="price">44.55 US</span><span class="status reserved">RESERVADO</span></div>
+  </div>
+
+  <!-- DÍA 9 — VIE 24 ABR -->
+  <div class="day-div"><div class="label">DÍA 9 <span>· VIE 24 ABR · Mar del Plata</span></div><div class="line"></div></div>
+
+  <div class="ticket train" data-day="24">
+    <div class="tk-head"><i class="icon">🚂</i><span class="label">TREN 301 · 6.5 HRS</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">BA</div><div class="name">P. Constitución</div><div class="time">07:30</div></div>
+      <div class="tk-path"><span class="p-icon">🚂</span></div>
+      <div class="tk-city to"><div class="code">MDP</div><div class="name">Mar del Plata</div><div class="time">14:00</div></div>
+    </div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">💺</span> Coche 402 · Asientos 23 y 24</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">ARS 69,120 · STELLA</span><span class="price">$196,571</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket hotel" data-day="24">
+    <div class="tk-head"><i class="icon">🏨</i><span class="label">HOTEL NOVI · LA PERLA</span><span class="badge status reserved">2 NOCHES</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Hipólito Irigoyen 1311, La Perla</div>
+      <div class="row"><span class="ri">📞</span> <span class="selectable">+542235373923</span> · 5774773288</div>
+      <div class="row"><span class="ri">📅</span> 24 y 25 de Abril</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">Ref. 8805</span><span class="price">89.10 US</span><span class="status reserved">RESERVADO</span></div>
+  </div>
+
+  <!-- DÍA 10 — SÁB 25 ABR -->
+  <div class="day-div"><div class="label">DÍA 10 <span>· SÁB 25 ABR · Mar del Plata</span></div><div class="line"></div></div>
+
+  <div class="ticket free" data-day="25">
+    <div class="tk-head"><i class="icon">🏖</i><span class="label">DÍA LIBRE EN MAR DEL PLATA</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">🌊</span> Playa, paseo costero, gastronomía</div>
+    </div>
+  </div>
+
+  <!-- DÍA 11 — DOM 26 ABR -->
+  <div class="day-div"><div class="label">DÍA 11 <span>· DOM 26 ABR · Regreso</span></div><div class="line"></div></div>
+
+  <div class="ticket train" data-day="26">
+    <div class="tk-head"><i class="icon">🚂</i><span class="label">TREN NOCTURNO</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">MDP</div><div class="name">Mar del Plata</div><div class="time">22:53</div></div>
+      <div class="tk-path"><span class="p-icon">🌙</span></div>
+      <div class="tk-city to"><div class="code">BA</div><div class="name">Buenos Aires</div><div class="time">~05:30</div></div>
+    </div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">💺</span> Coche 402 · Asientos 23 y 24</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">ARS 69,120 · STELLA</span><span class="price">$196,571</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <!-- DÍA 12 — LUN 27 ABR -->
+  <div class="day-div"><div class="label">DÍA 12 <span>· LUN 27 ABR · Montevideo</span></div><div class="line"></div></div>
+
+  <div class="ticket ferry" data-day="27">
+    <div class="tk-head"><i class="icon">⛴</i><span class="label">BUQUEBUS</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">BA</div><div class="name">Puerto Madero Sur</div><div class="time">08:30</div></div>
+      <div class="tk-path"><span class="p-icon">⛴</span></div>
+      <div class="tk-city to"><div class="code">MVD</div><div class="name">Montevideo</div><div class="time">13:15</div></div>
+    </div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Av. Elvira Rawson de Dellepiane 155, Pto Madero Sur</div>
+      <div class="row"><span class="ri">↩</span> Incluye viaje de regreso</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">REF 2604254 · 1329MRGX1W6H</span><span class="price">$820,988</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket hotel" data-day="27">
+    <div class="tk-head"><i class="icon">🏨</i><span class="label">HOTEL MONTEVIDEO</span><span class="badge status pending">2 NOCHES</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">⚠</span> <strong style="color:var(--accent)">Pendiente de reservar</strong></div>
+      <div class="row"><span class="ri">📅</span> 27 y 28 de Abril</div>
+    </div>
+  </div>
+
+  <!-- DÍA 13 — MAR 28 ABR -->
+  <div class="day-div"><div class="label">DÍA 13 <span>· MAR 28 ABR · Montevideo</span></div><div class="line"></div></div>
+
+  <div class="ticket free" data-day="28">
+    <div class="tk-head"><i class="icon">🏛</i><span class="label">EXPLORAR MONTEVIDEO</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">🏛</span> Ciudad Vieja, Plaza Independencia</div>
+      <div class="row"><span class="ri">🥩</span> Mercado del Puerto</div>
+    </div>
+  </div>
+
+  <!-- DÍA 14 — MIÉ 29 ABR -->
+  <div class="day-div"><div class="label">DÍA 14 <span>· MIÉ 29 ABR · Regreso BA</span></div><div class="line"></div></div>
+
+  <div class="ticket ferry" data-day="29">
+    <div class="tk-head"><i class="icon">⛴</i><span class="label">BUQUEBUS · REGRESO</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">MVD</div><div class="name">Montevideo</div><div class="time">13:00</div></div>
+      <div class="tk-path"><span class="p-icon">⛴</span></div>
+      <div class="tk-city to"><div class="code">BA</div><div class="name">Buenos Aires</div><div class="time">17:45</div></div>
+    </div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> B. Gral. Artigas 1825, Montevideo</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">REF 2604254 · B29MQGX1WGH</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket hotel" data-day="29">
+    <div class="tk-head"><i class="icon">🏨</i><span class="label">HOTEL EZEAPART · EZEIZA</span><span class="badge status reserved">1 NOCHE</span></div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">📍</span> Centenario 205 1, 1804 Ezeiza</div>
+      <div class="row"><span class="ri">📞</span> <span class="selectable">+541159359803</span></div>
+      <div class="row"><span class="ri">⏰</span> Check-in 18:00-19:00</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">R. 6814902430</span><span class="price">43.47 US</span><span class="status reserved">RESERVADO</span></div>
+  </div>
+
+  <!-- DÍA 15 — JUE 30 ABR -->
+  <div class="day-div"><div class="label">DÍA 15 <span>· JUE 30 ABR · ¡Regreso!</span></div><div class="line"></div></div>
+
+  <div class="ticket flight" data-day="30">
+    <div class="tk-head"><i class="icon">✈</i><span class="label">VUELO LA543 · LATAM</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">EZE</div><div class="name">Buenos Aires Ezeiza</div><div class="time">12:15</div></div>
+      <div class="tk-path"><span class="p-icon">✈</span></div>
+      <div class="tk-city to"><div class="code">SCL</div><div class="name">Santiago de Chile</div><div class="time">13:25</div></div>
+    </div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">⏱</span> Duración: 2h 10min · Boeing 788</div>
+      <div class="row"><span class="ri">⚠</span> Conexión en Santiago: 3h 5min</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">LATAM</span><span class="status paid">PAGADO</span></div>
+  </div>
+
+  <div class="ticket flight" data-day="30">
+    <div class="tk-head"><i class="icon">✈</i><span class="label">VUELO LA710 · LATAM · ¡A CASA!</span></div>
+    <div class="tk-route">
+      <div class="tk-city from"><div class="code">SCL</div><div class="name">Santiago de Chile</div><div class="time">16:30</div></div>
+      <div class="tk-path"><span class="p-icon">🏠</span></div>
+      <div class="tk-city to"><div class="code">BOG</div><div class="name">Bogotá El Dorado</div><div class="time">21:35</div></div>
+    </div>
+    <div class="tk-info">
+      <div class="row"><span class="ri">⏱</span> Duración: 6h 5min · Boeing 788</div>
+      <div class="row"><span class="ri">👥</span> Judith Stella Botero · Jaime Enrique Sastoque</div>
+    </div>
+    <div class="tk-tear"></div>
+    <div class="tk-foot"><span class="code">¡Feliz regreso a casa! 🏠</span><span class="status paid">PAGADO</span></div>
+  </div>
+</div>
+
+<!-- ▸ SUMMARY -->
+<div id="summary" class="section">
+  <div class="stats-grid">
+    <div class="stat"><div class="label">Duración</div><div class="val">15</div><div class="sub">días</div></div>
+    <div class="stat"><div class="label">Ciudades</div><div class="val">5</div><div class="sub">destinos</div></div>
+    <div class="stat"><div class="label">Vuelos</div><div class="val">4</div><div class="sub">trayectos</div></div>
+    <div class="stat"><div class="label">Total</div><div class="val">~8M</div><div class="sub">COP</div></div>
+  </div>
+  <div class="expense-card">
+    <h3>Desglose de gastos</h3>
+    <div class="exp-row"><div><div class="exp-name">Vuelos internacionales</div><div class="exp-note">LATAM BOG→EZE vía Santiago</div></div><div class="exp-amount">$4,944,420</div></div>
+    <div class="exp-row"><div><div class="exp-name">Vuelos internos</div><div class="exp-note">Buenos Aires ↔ Iguazú</div></div><div class="exp-amount">$504,000</div></div>
+    <div class="exp-row"><div><div class="exp-name">Alojamiento Recoleta</div><div class="exp-note">Corazón de Recoleta — 4 noches</div></div><div class="exp-amount">163 US</div></div>
+    <div class="exp-row"><div><div class="exp-name">Alojamiento Iguazú</div><div class="exp-note">Naturaleza Viva — 3 noches</div></div><div class="exp-amount">$433,112</div></div>
+    <div class="exp-row"><div><div class="exp-name">Alojamiento San Telmo</div><div class="exp-note">Lezama Suites — 1 noche</div></div><div class="exp-amount">44.55 US</div></div>
+    <div class="exp-row"><div><div class="exp-name">Hotel Mar del Plata</div><div class="exp-note">Hotel Novi — 2 noches</div></div><div class="exp-amount">89.10 US</div></div>
+    <div class="exp-row"><div><div class="exp-name">Hotel Ezeiza</div><div class="exp-note">Ezeapart — última noche</div></div><div class="exp-amount">43.47 US</div></div>
+    <div class="exp-row"><div><div class="exp-name">Trenes Mar del Plata</div><div class="exp-note">Ida y vuelta — Coche 402</div></div><div class="exp-amount">$393,142</div></div>
+    <div class="exp-row"><div><div class="exp-name">Ferry Montevideo</div><div class="exp-note">Buquebus ida y vuelta</div></div><div class="exp-amount">$820,988</div></div>
+    <div class="exp-row"><div><div class="exp-name">Tours y actividades</div><div class="exp-note">Tango, Bus turístico, Casa Rosada</div></div><div class="exp-amount">$883,800</div></div>
+    <div class="exp-row exp-total"><div class="exp-name">Total confirmado (COP)</div><div class="exp-amount">~$7,979,462</div></div>
+  </div>
+  <div class="notes-card">
+    <h3>📋 Información importante</h3>
+    <div class="note warn"><span class="icon">⚠</span><span>Hotel en Montevideo (27-28 abril) pendiente de reservar</span></div>
+    <div class="note"><span class="icon">✓</span><span>Llevar efectivo en USD y pesos argentinos</span></div>
+    <div class="note"><span class="icon">✓</span><span>Códigos de reserva copiables (mantener presionado)</span></div>
+    <div class="note"><span class="icon">✓</span><span>Teléfonos de anfitriones incluidos en cada tarjeta</span></div>
+  </div>
+</div>
+
+<div class="footer"><p>Hecho con <span class="heart">♥</span> para el viaje de abril 2026</p></div>
+</div>
+
+<!-- Popup -->
+<div class="popup" id="popup"><div class="name" id="popup-city"></div><div class="dates" id="popup-dates"></div></div>
+
+<script>
+const cities={bogota:{name:'Bogotá, Colombia',dates:'15 y 30 Abril • Inicio y fin'},buenosaires:{name:'Buenos Aires',dates:'16-19, 23, 26, 29 Abril • 6 noches'},iguazu:{name:'Cataratas del Iguazú',dates:'20-22 Abril • 3 noches'},mardelplata:{name:'Mar del Plata',dates:'24-25 Abril • 2 noches'},montevideo:{name:'Montevideo, Uruguay',dates:'27-28 Abril • 2 noches'}};
+let pt;
+function showCity(k){const c=cities[k],p=document.getElementById('popup');document.getElementById('popup-city').textContent=c.name;document.getElementById('popup-dates').textContent=c.dates;p.classList.add('show');clearTimeout(pt);pt=setTimeout(()=>p.classList.remove('show'),3000)}
+function showSection(id,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');requestAnimationFrame(revealCards)}
+function revealCards(){const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*50);obs.unobserve(e.target)}})},{threshold:.1});document.querySelectorAll('.ticket:not(.visible)').forEach(c=>obs.observe(c))}
+function updateStatus(){const el=document.getElementById('trip-status'),now=new Date(),s=new Date(2026,3,15),e=new Date(2026,3,30),d=Math.ceil((s-now)/864e5);if(now<s){if(d===1)el.innerHTML='✨ <span class="highlight">¡El viaje empieza mañana!</span>';else if(d<=7)el.innerHTML='⏳ Faltan <span class="highlight">'+d+' días</span> para el viaje';else el.innerHTML='📅 Faltan <span class="highlight">'+d+' días</span>'}else if(now<=e){const day=Math.floor((now-s)/864e5)+1;el.innerHTML='🎉 <span class="highlight">Día '+day+' de 15</span> — ¡Disfruta!';document.querySelectorAll('.ticket[data-day]').forEach(c=>{if(parseInt(c.dataset.day)===now.getDate())c.style.borderColor='rgba(245,158,11,.4)'})}else{el.innerHTML='✈ ¡Viaje completado!'}}
+updateStatus();revealCards();
+</script>
+</body>
+</html>
