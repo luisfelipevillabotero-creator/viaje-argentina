@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Viaje a Argentina 2026</title>
   <meta name="description" content="Itinerario interactivo de viaje a Argentina y Uruguay - Abril 2026">
+  <meta property="og:title" content="Viaje a Argentina 2026">
+  <meta property="og:description" content="15 días de aventura: Bogotá → Buenos Aires → Iguazú → Mar del Plata → Montevideo">
+  <meta property="og:image" content="https://luisfelipevillabotero-creator.github.io/viaje-argentina/foto.jpg">
+  <meta property="og:type" content="website">
   <meta name="theme-color" content="#0a0f1e">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -41,10 +45,11 @@
     .container{max-width:520px;margin:0 auto;padding:0 1rem 5rem}
 
     /* ─── HERO ─── */
-    .hero{position:relative;padding:3.5rem 1.5rem 2.5rem;text-align:center;overflow:hidden;background:linear-gradient(160deg,#1e1b4b 0%,#1e3a5f 40%,#0f766e 100%);border-radius:0 0 32px 32px;margin-bottom:1rem}
-    .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-    .hero-plane{position:absolute;right:-30px;top:50%;transform:translateY(-50%) rotate(-20deg);width:220px;height:220px;opacity:.06}
-    .hero-content{position:relative;z-index:2}
+    .hero{position:relative;padding:3.5rem 1.5rem 2.5rem;text-align:center;overflow:hidden;background:url('foto.jpg') center 20% / cover no-repeat;border-radius:0 0 32px 32px;margin-bottom:1rem}
+    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(30,27,75,.82),rgba(30,58,95,.75) 40%,rgba(15,118,110,.78) 100%);z-index:1}
+    .hero::before{content:'';position:absolute;inset:0;z-index:2;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+    .hero-plane{position:absolute;right:-30px;top:50%;transform:translateY(-50%) rotate(-20deg);width:220px;height:220px;opacity:.06;z-index:3}
+    .hero-content{position:relative;z-index:3}
     .hero-icon{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,.15);margin-bottom:1rem}
     .hero-icon svg{width:28px;height:28px;fill:#fff}
     .hero h1{font-family:'Playfair Display',serif;color:#fff;font-size:2rem;font-weight:700;letter-spacing:-.5px;margin-bottom:.25rem}
